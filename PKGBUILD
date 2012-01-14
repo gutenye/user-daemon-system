@@ -48,10 +48,10 @@ package() {
   mkdir -p $pkgdir/home/$USER
   cp -r etc $pkgdir/home/$USER/
 
-  mkdir -p $pkg/home/$USER/var/run/daemons
-  mkdir -p $pkg/home/$USER/var/log
-  mkdir -p $pkg/home/$USER/etc/conf.d
-  mkdir -p $pkg/home/$USER/etc/rc.d/functions.d
+  mkdir -p $pkgdir/home/$USER/var/run/daemons
+  mkdir -p $pkgdir/home/$USER/var/log
+  mkdir -p $pkgdir/home/$USER/etc/conf.d
+  mkdir -p $pkgdir/home/$USER/etc/rc.d/functions.d
 
   chown $USER:$USER -R $pkgdir
 }
