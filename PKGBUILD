@@ -1,11 +1,11 @@
 # Contributor: Guten <ywzhaifei@gmail.com>
 
 pkgname=user-daemon-system
-pkgver=20120113  
+pkgver=20120114  
 pkgrel=1
-pkgdesc=""
+pkgdesc="A User based Daemon System for ZSH"
 arch=("i686" "x86_64")
-url=""
+url="https://github.com/GutenYe/user-daemon-system"
 license=("MIT-LICENSE")
 groups=()
 depends=()
@@ -45,6 +45,7 @@ build() {
 package() {
   cd $srcdir/$_gitname
 
+  mkdir -p $pkgdir/home/$USER
   cp -r etc var $pkgdir/home/$USER/
 
   chown $USER:$USER -R $pkgdir
