@@ -1,0 +1,276 @@
+setopt null_glob
+
+if [[ $1 == "start" ]]; then
+	if [[ $STARTING == 1 ]]; then
+		echo "A daemon is starting another daemon, this is unlikely to work as intended."
+	else
+		export STARTING=1
+	fi
+fi
+
+# width:
+calc_columns () {
+	STAT_COL=80
+	if [[ ! -t 1 ]]; then
+		USECOLOR=""
+	elif [[ -t 0 ]]; then
+		# stty will fail when stdin isn't a terminal
+		STAT_COL=$(stty size)
+		# stty gives "rows cols"; strip the rows number, we just want columns
+		STAT_COL=${STAT_COL##* }
+	elif tput cols &>/dev/null; then
+		# is /usr/share/terminfo already mounted, and TERM recognized?
+		STAT_COL=$(tput cols)
+	fi
+	if (( STAT_COL == 0 )); then
+		# if output was 0 (serial console), set default width to 80
+		STAT_COL=80
+		USECOLOR=""
+	fi
+
+	# we use 13 characters for our own stuff
+	STAT_COL=$(( STAT_COL - 13 ))
+
+	if [[ -t 1 ]]; then
+		SAVE_POSITION="\e[s"
+		RESTORE_POSITION="\e[u"
+		DEL_TEXT="\e[$(( STAT_COL + 4 ))G"
+	else
+		SAVE_POSITION=""
+		RESTORE_POSITION=""
+		DEL_TEXT=""
+	fi
+}
+
+calc_columns
+
+# disable colors on broken terminals
+TERM_COLORS=$(tput colors 2>/dev/null)
+if (( $? != 3 )); then
+	case $TERM_COLORS in
+		*[!0-9]*) USECOLOR="";;
+		[0-7])    USECOLOR="";;
+		'')       USECOLOR="";;
+	esac
+fi
+unset TERM_COLORS
+
+# set colors
+if [[ $USECOLOR = [yY][eE][sS] ]]; then
+	if tput setaf 0 &>/dev/null; then
+		C_CLEAR=$(tput sgr0)                      # clear text
+		C_MAIN=${C_CLEAR}$(tput bold)        # main text
+		C_OTHER=${C_MAIN}$(tput setaf 4)     # prefix & brackets
+		C_SEPARATOR=${C_MAIN}$(tput setaf 0) # separator
+		C_BUSY=${C_CLEAR}$(tput setaf 6)     # busy
+		C_FAIL=${C_MAIN}$(tput setaf 1)      # failed
+		C_DONE=${C_MAIN}                          # completed
+		C_BKGD=${C_MAIN}$(tput setaf 5)      # backgrounded
+		C_H1=${C_MAIN}                            # highlight text 1
+		C_H2=${C_MAIN}$(tput setaf 6)        # highlight text 2
+	else
+		C_CLEAR="\e[m"          # clear text
+		C_MAIN="\e[;1m"         # main text
+		C_OTHER="\e[1;34m"      # prefix & brackets
+		C_SEPARATOR="\e[1;30m"  # separator
+		C_BUSY="\e[;36m"        # busy
+		C_FAIL="\e[1;31m"       # failed
+		C_DONE=${C_MAIN}        # completed
+		C_BKGD="\e[1;35m"       # backgrounded
+		C_H1=${C_MAIN}          # highlight text 1
+		C_H2="\e[1;36m"         # highlight text 2
+	fi
+fi
+
+# prefixes:
+
+PREFIX_REG="::"
+PREFIX_HL=" >"
+
+# functions:
+
+deltext() {
+	printf "${DEL_TEXT}"
+}
+
+printhl() {
+	printf "${C_OTHER}${PREFIX_HL} ${C_H1}${1}${C_CLEAR} \n"
+}
+
+printsep() {
+	printf "\n${C_SEPARATOR}   ------------------------------\n"
+}
+
+stat_bkgd() {
+	printf "${C_OTHER}${PREFIX_REG} ${C_MAIN}${1}${C_CLEAR} "
+	deltext
+	printf "   ${C_OTHER}[${C_BKGD}BKGD${C_OTHER}]${C_CLEAR} "
+}
+
+stat_busy() {
+	printf "${C_OTHER}${PREFIX_REG} ${C_MAIN}${1}${C_CLEAR} "
+	printf "${SAVE_POSITION}"
+	deltext
+	printf "   ${C_OTHER}[${C_BUSY}BUSY${C_OTHER}]${C_CLEAR} "
+}
+
+stat_append() {
+	printf "${RESTORE_POSITION}"
+	printf -- "${C_MAIN}${1}${C_CLEAR}"
+	printf "${SAVE_POSITION}"
+}
+
+stat_done() {
+	deltext
+	printf "   ${C_OTHER}[${C_DONE}DONE${C_OTHER}]${C_CLEAR} \n"
+}
+
+stat_fail() {
+	deltext
+	printf "   ${C_OTHER}[${C_FAIL}FAIL${C_OTHER}]${C_CLEAR} \n"
+}
+
+stat_die() {
+	stat_fail
+	exit ${1:-1}
+}
+
+status() {
+	stat_busy "$1"
+	shift
+	"$@" &>/dev/null
+	local ret=$?
+	(( ret == 0 )) && stat_done || stat_fail
+	return $ret
+}
+
+#  usage : in_array( $needle, $haystack )
+# return : 0 - found
+#          1 - not found
+in_array() {
+	local needle=$1; shift
+	local item
+	for item; do
+		[[ $item = "${needle}" ]] && return 0
+	done
+	return 1 # Not Found
+}
+
+# daemons:
+
+add_daemon() {
+	[[ -d ~/var/run/daemons ]] || mkdir -p ~/var/run/daemons
+	touch ~/var/run/daemons/"$1"
+}
+
+rm_daemon() {
+	rm -f ~/var/run/daemons/"$1"
+}
+
+ck_daemon() {
+	[[ ! -f ~/var/run/daemons/$1 ]]
+}
+
+# Check if $1 is a valid daemon name
+have_daemon() {
+	[[ -f ~/etc/rc.d/$1 && -x ~/etc/rc.d/$1 ]]
+}
+
+# Check if $1 is started at boot
+ck_autostart() {
+	local daemon
+  for daemon ($DAEMONS) do
+    [[ ${daemon#@} == $1 ]] && return 1
+  done
+	return 0
+}
+
+start_daemon() {
+	have_daemon "$1" && ~/etc/rc.d/"$1" start
+}
+
+# Never use this function, it causes daemons to be stoped in the wrong order.
+# The only way to start a daemon at boot is to add it to the DAEMONS array.
+ck_depends() {
+	local daemon
+	for daemon; do
+		ck_daemon "$daemon" && start_daemon "$daemon"
+	done
+}
+
+start_daemon_bkgd() {
+	stat_bkgd "Starting $1"
+	(start_daemon "$1") >/dev/null &
+}
+
+stop_daemon() {
+	have_daemon "$1" && ~/etc/rc.d/"$1" stop
+}
+
+# Status functions
+status_started() {
+	deltext
+	echo -ne "$C_OTHER[${C_STRT}STARTED$C_OTHER]$C_CLEAR "
+}
+
+status_stopped() {
+	deltext
+	echo -ne "$C_OTHER[${C_STRT}STOPPED$C_OTHER]$C_CLEAR "
+}
+
+ck_status() {
+	! ck_daemon "$1" && status_started || status_stopped
+}
+
+# Return PID of $1
+get_pid() {
+	pidof -o %PPID $1 || return 1
+}
+
+# Check if PID-file $1 is still the active PID-file for command $2
+ck_pidfile() {
+	if [[ -f $1 ]]; then
+		local fpid ppid
+		read -r fpid <"$1"
+		ppid=$(get_pid "$2")
+		[[ $fpid = "${ppid}" ]] && return 0
+	fi
+	return 1
+}
+
+# Stop all daemons
+# This function should *never* ever perform any other actions beside calling stop_daemon()!
+# It might be used by a splash system etc. to get a list of daemons to be stopped.
+stop_all_daemons() {
+	# Find daemons NOT in the DAEMONS array. Shut these down first
+	for daemon in ~/var/run/daemons/*; do
+		[[ -f $daemon ]] || continue
+		daemon=${daemon##*/}
+		ck_autostart "$daemon" && stop_daemon "$daemon"
+	done
+
+	# Shutdown daemons in reverse order
+  for daemon (${(Oa)DAEMONS}) do
+    [[ daemon[1] == '!' ]] && continue
+		ck_daemon "$daemon" || stop_daemon "$daemon"
+	done
+}
+
+remove_leftover() {
+	stat_busy "Removing Leftover Files"
+		# handle this separately until we declare the non-symlinks obsoleted
+		[[ ! -L ~/var/lock ]] && rm -rf ~/var/lock/*
+		if [[ ! -L ~/var/run && -d ~/var/run ]]; then
+			find ~/var/run/ \! -type d -delete
+			ln -s ~/var/run/daemons ~/var/var/run/daemons
+		fi
+		/usr/lib/initscripts/arch-tmpfiles --create --remove && stat_done || stat_fail
+}
+
+# Source additional functions at the end to allow overrides
+for f in ~/etc/rc.d/functions.d/*; do
+	[[ -e $f ]] && . "$f"
+done
+
+# End of file
+# vim: filetype=zsh
