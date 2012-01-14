@@ -16,6 +16,8 @@ ArchLinux already has a daemon system at /etc/rc.d/, while this is for user.
     
 How it works, when user login with zsh, ~/.zlogin starts all the daemons defined in DAEMONS array in ~/etc/rc.conf, when user call `halt` command, stop all the daemons and shutdown the computer.
 
+Why we need a user based daemon system? for aria2c daemon as example, put aria2c into system daemon is not good, evey user can start/stop their own aria2c daemon.
+
 more see [user-aria2cd](https://github.com/GutenYe/user-aria2cd) for an example.
 
 Install
