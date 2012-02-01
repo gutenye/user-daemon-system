@@ -3,12 +3,12 @@
 pkgname=user-daemon-system-git
 pkgver=20120201  
 pkgrel=1
-pkgdesc="A User based Daemon System for ZSH"
+pkgdesc="A User based Daemon System for ZSH. READ https://github.com/GutenYe/user-daemon-system FIRST." 
 arch=("i686" "x86_64")
 url="https://github.com/GutenYe/user-daemon-system"
 license=("MIT-LICENSE")
 groups=()
-depends=()
+depends=("zsh")
 makedepends=()
 optdepends=()
 provides=()
