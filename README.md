@@ -1,6 +1,12 @@
 user-daemon-system, The missing daemon system for user.
 ==============================================================
 
+| Homepage:      |  https://github.com/GutenYe/user-daemon-system       |
+|----------------|------------------------------------------------------       |
+| Author:	       | Guten                                                 |
+| License:       | MIT-LICENSE                                                |
+| Issue Tracker: | https://github.com/GutenYe/user-daemon-system/issues |
+
 Overview
 --------
 
@@ -60,7 +66,7 @@ Contributing
 Credits
 --------
 
-* [Contributors](https://github.com/GutenYe/user-aria2d/contributors)
+* [Contributors](https://github.com/GutenYe/user-daemon-system/contributors)
 
 Resources
 ---------
