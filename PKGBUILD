@@ -1,7 +1,7 @@
 # Contributor: Guten <ywzhaifei@gmail.com>
 
-pkgname=user-daemon-system
-pkgver=20120114  
+pkgname=user-daemon-system-git
+pkgver=20120201  
 pkgrel=1
 pkgdesc="A User based Daemon System for ZSH"
 arch=("i686" "x86_64")
