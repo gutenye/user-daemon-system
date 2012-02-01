@@ -1,5 +1,5 @@
-user-daemon-system
-====================
+user-daemon-system, The missing daemon system for user.
+==============================================================
 
 Overview
 --------
@@ -21,6 +21,24 @@ How it works, when user login with zsh, ~/.zlogin starts all the daemons defined
 Why we need a user based daemon system? for aria2c daemon as example, put aria2c into system daemon is not good, evey user can start/stop their own aria2c daemon.
 
 more see [user-aria2d](https://github.com/GutenYe/user-aria2d) for an example.
+
+Usage
+-----
+	
+start system
+
+	$ zsh -l
+	# will start all DAEMONS defined in ~/etc/rc.conf
+
+halt system
+
+	$ source ~/.zhalt && halt
+	# stop all running daemons.
+
+manualy start daemon
+
+	$ ~/etc/rc.d/food start
+
 
 Install
 -------
