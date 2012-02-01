@@ -49,6 +49,7 @@ package() {
   cp -r etc $pkgdir/home/$USER/
 
   mkdir -p $pkgdir/home/$USER/var/run/daemons
+  mkdir -p $pkgdir/home/$USER/var/cache
   mkdir -p $pkgdir/home/$USER/var/log
   mkdir -p $pkgdir/home/$USER/etc/conf.d
   mkdir -p $pkgdir/home/$USER/etc/rc.d/functions.d
