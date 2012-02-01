@@ -61,6 +61,8 @@ for zcm user.
 
 	pacaur -S user-daemon-system-git
 
+for user 'foo', run `pacaur -S user-daemon-system-git` will install to /home/foo/etc/rc.conf, while for user 'bar', run `pacaur -S user-daemon-system-git` again, will install to /home/bar/etc/rc.conf. That's it.
+
 Contributing
 -------------
 
