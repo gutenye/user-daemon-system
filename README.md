@@ -1,9 +1,7 @@
 user-daemon-system
 ====================
 
-based on zsh, can be used with zcm.
-
-OverView
+Overview
 --------
 
 ArchLinux already has a daemon system at /etc/rc.d/, while this is for user.
@@ -26,6 +24,8 @@ more see [user-aria2d](https://github.com/GutenYe/user-aria2d) for an example.
 
 Install
 -------
+
+requirements: based on zsh.
 
 	# install 'user-daemon-system-git' package from AUR. # pacaur -S user-daemon-system-git
 	cp _zlogin ~/.zlogin
