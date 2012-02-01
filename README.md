@@ -7,9 +7,6 @@ user-daemon-system, The missing daemon system for user.
 | License:       | MIT-LICENSE                                                |
 | Issue Tracker: | https://github.com/GutenYe/user-daemon-system/issues |
 
-Overview
---------
-
 ArchLinux already has a daemon system at /etc/rc.d/, while this is for user.
 
 	~/etc/
@@ -28,7 +25,7 @@ Why we need a user based daemon system? for aria2c daemon as example, put aria2c
 
 more see [user-aria2d](https://github.com/GutenYe/user-aria2d) for an example.
 
-Usage
+Getting Started
 -----
 	
 boot system
