@@ -31,31 +31,35 @@ more see [user-aria2d](https://github.com/GutenYe/user-aria2d) for an example.
 Usage
 -----
 	
-start system
+boot system
 
 	$ zsh -l
 	# will start all DAEMONS defined in ~/etc/rc.conf
 
 halt system
 
-	$ source ~/.zhalt && halt
+	$ . ~/.zhalt && halt
 	# stop all running daemons.
 
 manualy start daemon
 
 	$ ~/etc/rc.d/food start
 
-
 Install
 -------
 
-requirements: based on zsh.
+Requirements: Archlinux, zsh
 
-	# install 'user-daemon-system-git' package from AUR. # pacaur -S user-daemon-system-git
+	# install 'user-daemon-system-git' package from AUR.
+	pacaur -S user-daemon-system-git
 	cp _zlogin ~/.zlogin
 	cp _zhalt ~/.zhalt
 	alias halt="/bin/zsh ~/.zhalt 2>/dev/null; sudo halt"
 	alias reboot="/bin/zsh ~/.zhalt 2>/dev/null; sudo reboot"
+
+for zcm user.
+
+	pacaur -S user-daemon-system-git
 
 Contributing
 -------------
@@ -71,7 +75,10 @@ Credits
 Resources
 ---------
 
-* [zcm](https://github.com/zcm/zcm): oh-my-zsh and Bundler inspried ZSH Configuration Manager.
+* [zcm](https://github.com/zcm/zcm): oh-my-zsh and Bundler inspried ZSH Configuration Manager
+* [pacuaer](https://github.com/Spyhawk/pacaur): A fast workflow AUR wrapper using cower as backend
+* [zsh](http://zsh.sourceforge.net): the final shell
+* [Archlinux](http://www.archlinux.org): A simple, lightweight distribution
 
 Copyright
 ---------
