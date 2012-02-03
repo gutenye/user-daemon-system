@@ -1,7 +1,0 @@
-# Stop all daemons
-if [[ -e ~/etc/rc.conf ]]; then
-  . ~/etc/rc.conf
-  . ~/etc/rc.d/functions
-
-  stop_all_daemons
-fi

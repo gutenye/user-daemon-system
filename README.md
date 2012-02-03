@@ -16,14 +16,11 @@ ArchLinux already has a daemon system at /etc/rc.d/, while this is for user.
 
 	~/var/
 	  run/
+			daemons/
 	  log/
 	  cache/
 
-How it works, when user login with zsh, ~/.zlogin starts all the daemons defined in DAEMONS array in ~/etc/rc.conf, when user call `halt` command, stop all the daemons and shutdown the computer.
-
-Why we need a user based daemon system? for aria2c daemon as example, put aria2c into system daemon is not good, evey user can start/stop their own aria2c daemon.
-
-more see [user-aria2d](https://github.com/GutenYe/user-aria2d) for an example.
+for a real world example: see https://github.com/GutenYe/user-mpd
 
 Getting Started
 -----
@@ -31,40 +28,37 @@ Getting Started
 boot system
 
 	$ zsh -l
-	# will start all DAEMONS defined in ~/etc/rc.conf
+	# will start all DAEMONS defined in ~/etc/rc.conf for use foo
 
 halt system
 
-	$ . ~/.zhalt && halt
-	# stop all running daemons.
+	$ halt
+	# stop all running daemons for all users.
 
-manualy start daemon
+manualy stop daemon
 
-	$ ~/etc/rc.d/food start
+	$ ~/etc/rc.d/food stop
 
 Install
 -------
 
-Requirements: Archlinux, zsh
+Requirements: Archlinux, bash
 
 	# install 'user-daemon-system-git' package from AUR.
 	pacaur -S user-daemon-system-git
-	cp _zlogin ~/.zlogin
-	cp _zhalt ~/.zhalt
-	alias halt="/bin/zsh ~/.zhalt 2>/dev/null; sudo halt"
-	alias reboot="/bin/zsh ~/.zhalt 2>/dev/null; sudo reboot"
+	# ~/.bash_login # for zsh: ~/.zlogin
+		user-daemon-system start
+	# /etc/rc.local.shutdown
+		/usr/bin/user-daemon-system stop
 
-for zcm user.
+Note on Patches/Pull Requests
+-----------------------------
 
-	pacaur -S user-daemon-system-git
-
-for user 'foo', run `pacaur -S user-daemon-system-git` will install to /home/foo/etc/rc.conf, while for user 'bar', run `pacaur -S user-daemon-system-git` again, will install to /home/bar/etc/rc.conf. That's it.
-
-Contributing
--------------
-
-* Feel free to join the project and make contributions (by submitting a pull request)
-* Submit any bugs/features/ideas to issue tracker
+1. Fork the project.
+2. Make your feature addition or bug fix.
+3. Add tests for it. This is important so I don't break it in a future version unintentionally.
+4. Commit, do not mess with rakefile, version, or history. (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+5. Send me a pull request. Bonus points for topic branches.
 
 Credits
 --------

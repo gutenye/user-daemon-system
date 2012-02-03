@@ -1,0 +1,53 @@
+#!/bin/bash
+
+function start_daemons(){
+  . ~/etc/rc.conf
+  . ~/etc/rc.d/functions
+
+  for daemon in "${DAEMONS[@]}" ; do
+    case ${daemon:0:1} in
+      '!') continue ;;     # Skip this daemon.
+      '@') start_daemon_bkgd "${daemon#@}" ;;
+      *)   start_daemon "$daemon" ;;
+    esac
+  done
+}
+
+function stop_daemons(){
+  . ~/etc/rc.conf
+  . ~/etc/rc.d/functions
+
+	# Stop all daemons
+	# This function should *never* ever perform any other actions beside calling stop_daemon()!
+	# It might be used by a splash system etc. to get a list of daemons to be stopped.
+	# Find daemons NOT in the DAEMONS array. Shut these down first
+	local daemon
+	for daemon in ~/var/run/daemons/*; do
+		[[ -f $daemon ]] || continue
+		daemon=${daemon##*/}
+		ck_autostart "$daemon" && stop_daemon "$daemon"
+	done
+
+	# Shutdown daemons in reverse order
+	local i daemon
+	for (( i=${#DAEMONS[@]}-1; i>=0; i-- )); do
+		[[ ${DAEMONS[i]} = '!'* ]] && continue
+		daemon=${DAEMONS[i]#@}
+		ck_daemon "$daemon" || stop_daemon "$daemon"
+	done
+}
+
+case "$1" in
+	"start" )
+		start_daemons
+		;;
+	"stop" )
+		users="`ls -d -c1 /home/*/etc/rc.conf | cut -d/ -f3`"
+		for user in $users; do
+			su $user -c "/usr/bin/user-daemon-system stop-daemons"
+		done
+		;;
+	"stop-daemons" )
+		stop_daemons
+		;;
+esac

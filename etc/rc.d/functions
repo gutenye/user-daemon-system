@@ -1,7 +1,7 @@
-setopt null_glob
+#!/bin/bash
 
 if [[ $1 == "start" ]]; then
-	if [[ $STARTING == 1 ]]; then
+	if [[ $STARTING ]]; then
 		echo "A daemon is starting another daemon, this is unlikely to work as intended."
 	else
 		export STARTING=1
@@ -179,9 +179,9 @@ have_daemon() {
 # Check if $1 is started at boot
 ck_autostart() {
 	local daemon
-  for daemon ($DAEMONS) do
-    [[ ${daemon#@} == $1 ]] && return 1
-  done
+	for daemon in "${DAEMONS[@]}"; do
+		[[ $1 = "${daemon#@}" ]] && return 1
+	done
 	return 0
 }
 
@@ -243,15 +243,18 @@ ck_pidfile() {
 # It might be used by a splash system etc. to get a list of daemons to be stopped.
 stop_all_daemons() {
 	# Find daemons NOT in the DAEMONS array. Shut these down first
-	for daemon in ~/var/run/daemons/*; do
+	local daemon
+	for daemon in ~/run/daemons/*; do
 		[[ -f $daemon ]] || continue
 		daemon=${daemon##*/}
 		ck_autostart "$daemon" && stop_daemon "$daemon"
 	done
 
 	# Shutdown daemons in reverse order
-  for daemon (${(Oa)DAEMONS}) do
-    [[ daemon[1] == '!' ]] && continue
+	local i daemon
+	for (( i=${#DAEMONS[@]}-1; i>=0; i-- )); do
+		[[ ${DAEMONS[i]} = '!'* ]] && continue
+		daemon=${DAEMONS[i]#@}
 		ck_daemon "$daemon" || stop_daemon "$daemon"
 	done
 }
@@ -271,6 +274,3 @@ remove_leftover() {
 for f in ~/etc/rc.d/functions.d/*; do
 	[[ -e $f ]] && . "$f"
 done
-
-# End of file
-# vim: filetype=zsh
