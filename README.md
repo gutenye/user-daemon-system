@@ -20,7 +20,10 @@ ArchLinux already has a daemon system at /etc/rc.d/, while this is for user.
 	  log/
 	  cache/
 
-for a real world example: see https://github.com/GutenYe/user-mpd
+Avaliable daemons:
+
+* [user-mpd](https://github.com/GutenYe/user-mpd): mpd is a flexible, powerful, server-side music player daemon.
+* [user-aria2d](https://github.com/GutenYe/user-aria2d): aria2 is a lightweight multi-protocol & multi-source download utility operated in command-line
 
 Getting Started
 -----
