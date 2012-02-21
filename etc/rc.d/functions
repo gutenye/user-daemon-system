@@ -1,5 +1,7 @@
 #!/bin/bash
 
+USECOLOR="yes"
+
 if [[ $1 == "start" ]]; then
 	if [[ $STARTING ]]; then
 		echo "A daemon is starting another daemon, this is unlikely to work as intended."
