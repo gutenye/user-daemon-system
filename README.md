@@ -47,10 +47,14 @@ Install
 
 Requirements: Archlinux, bash
 
-	# install 'user-daemon-system-git' package from AUR.
-	pacaur -S user-daemon-system-git
-	# ~/.bash_login # for zsh: ~/.zlogin
+	$ pacaur -S user-daemon-system-git
+
+	# ~/.bash_profile  # use ~/.zprofile for zsh.
+		export ROOT="$HOME"
+
+	# ~/.bash_login   # use ~/.zlogin for zsh.
 		user-daemon-system start
+
 	# /etc/rc.local.shutdown
 		/usr/bin/user-daemon-system stop
 
@@ -72,7 +76,7 @@ Resources
 ---------
 
 * [zcm](https://github.com/zcm/zcm): oh-my-zsh and Bundler inspried ZSH Configuration Manager
-* [pacuaer](https://github.com/Spyhawk/pacaur): A fast workflow AUR wrapper using cower as backend
+* [pcacur](https://github.com/Spyhawk/pacaur): A fast workflow AUR wrapper using cower as backend
 * [zsh](http://zsh.sourceforge.net): the final shell
 * [Archlinux](http://www.archlinux.org): A simple, lightweight distribution
 
