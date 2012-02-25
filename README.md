@@ -53,7 +53,7 @@ Requirements: Archlinux, bash
 		user-daemon-system start
 
 	# /etc/rc.local.shutdown
-		/usr/bin/user-daemon-system stop
+		su <user> -c '/usr/bin/user-daemon-system stop'
 
 Note on Patches/Pull Requests
 -----------------------------
