@@ -1,5 +1,3 @@
-#!/bin/bash
-
 USECOLOR="yes"
 
 if [[ $1 == "start" ]]; then
@@ -276,3 +274,5 @@ remove_leftover() {
 for f in ~/etc/rc.d/functions.d/*; do
 	[[ -e $f ]] && . "$f"
 done
+
+# vim: ft=sh

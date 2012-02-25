@@ -49,9 +49,6 @@ Requirements: Archlinux, bash
 
 	$ pacaur -S user-daemon-system-git
 
-	# ~/.bash_profile  # use ~/.zprofile for zsh.
-		export ROOT="$HOME"
-
 	# ~/.bash_login   # use ~/.zlogin for zsh.
 		user-daemon-system start
 
