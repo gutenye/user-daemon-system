@@ -22,8 +22,8 @@ ArchLinux already has a daemon system at /etc/rc.d/, while this is for user.
 
 Avaliable daemons:
 
-* [user-mpd](https://github.com/GutenYe/user-mpd): mpd is a flexible, powerful, server-side music player daemon.
-* [user-aria2d](https://github.com/GutenYe/user-aria2d): aria2 is a lightweight multi-protocol & multi-source download utility operated in command-line
+* [user-mpd-daemon](https://aur.archlinux.org/packages.php?ID=56855): mpd is a flexible, powerful, server-side music player daemon.
+* [user-aria2-daemon](https://aur.archlinux.org/packages.php?ID=56854): aria2 is a lightweight multi-protocol & multi-source download utility operated in command-line
 
 Getting Started
 -----
@@ -53,7 +53,7 @@ Requirements: Archlinux, bash
 		user-daemon-system start
 
 	# /etc/rc.local.shutdown
-		su <user> -c '/usr/bin/user-daemon-system stop'
+		HOME=/home/<user> /usr/bin/user-daemon-system stop
 
 Note on Patches/Pull Requests
 -----------------------------
