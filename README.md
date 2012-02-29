@@ -32,12 +32,12 @@ install a user daemon.
 
 	$ pacaur -S user-mpd-daemon  # need run as normal user. it install files to $HOME.
 
-boot system
+start daemon when a user logged in.
 
-	$ zsh -l
+	$ bash -l
 	# will start all DAEMONS defined in ~/etc/rc.conf for use foo
 
-halt system
+stop daemons when system halted.
 
 	$ halt
 	# stop all running daemons for all users.
@@ -76,10 +76,10 @@ Credits
 Resources
 ---------
 
-* [zcm](https://github.com/zcm/zcm): oh-my-zsh and Bundler inspried ZSH Configuration Manager
-* [pcacur](https://github.com/Spyhawk/pacaur): A fast workflow AUR wrapper using cower as backend
-* [zsh](http://zsh.sourceforge.net): the final shell
-* [Archlinux](http://www.archlinux.org): A simple, lightweight distribution
+* [zcm](https://github.com/zcm/zcm): oh-my-zsh and Bundler inspried ZSH Configuration Manager.
+* [pcacur](https://github.com/Spyhawk/pacaur): A AUR wrapper for Archlinux.
+* [zsh](http://zsh.sourceforge.net): the final shell.
+* [Archlinux](http://www.archlinux.org): A simple, lightweight distribution.
 
 Copyright
 ---------
