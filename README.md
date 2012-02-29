@@ -28,6 +28,10 @@ Avaliable daemons:
 Getting Started
 -----
 	
+install a user daemon.
+
+	$ pacaur -S user-mpd-daemon  # need run as normal user. it install files to $HOME.
+
 boot system
 
 	$ zsh -l
