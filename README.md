@@ -24,6 +24,7 @@ ArchLinux initscripts.
 
 * [user-mpd-daemon](https://aur.archlinux.org/packages.php?ID=56855): mpd is a flexible, powerful, server-side music player daemon.
 * [user-aria2-daemon](https://aur.archlinux.org/packages.php?ID=56854): aria2 is a lightweight multi-protocol & multi-source download utility operated in command-line
+* [user-profile-sync-daemon-git](https://aur.archlinux.org/packages.php?ID=57419): sync browser profiles to tmpfs.
 
 Getting Started
 -----
