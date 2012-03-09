@@ -7,20 +7,20 @@ user-daemon-system, The missing daemon system for user.
 | License:       | MIT-LICENSE                                                |
 | Issue Tracker: | https://github.com/GutenYe/user-daemon-system/issues |
 
-ArchLinux already has a daemon system at /etc/rc.d/, while this is for user.
+ArchLinux initscripts.
 
-	~/etc/
-		rc.conf
-	  conf.d/
-	  rc.d/
+|  initscripts 	         | user-daemon-system   |
+|------------------------|----------------------|
+| /etc/rc.conf           | ~/etc/rc.conf        |
+| /etc/rc.d/ 	           | ~/etc/rc.d           |
+| /etc/rc.d/functions    | ~/etc/rc.d/functions |
+|                        |                      |
+| /var/run/              | ~/var/run/           |
+| /var/run/daemons/      | ~/var/run/daemons/   |
+| /var/log/              | ~/var/log/           |
+| /var/cache/            | ~/var/cache/         |
 
-	~/var/
-	  run/
-			daemons/
-	  log/
-	  cache/
-
-Avaliable daemons:
+**Avaliable daemons**:
 
 * [user-mpd-daemon](https://aur.archlinux.org/packages.php?ID=56855): mpd is a flexible, powerful, server-side music player daemon.
 * [user-aria2-daemon](https://aur.archlinux.org/packages.php?ID=56854): aria2 is a lightweight multi-protocol & multi-source download utility operated in command-line
@@ -76,10 +76,7 @@ Credits
 Resources
 ---------
 
-* [zcm](https://github.com/zcm/zcm): oh-my-zsh and Bundler inspried ZSH Configuration Manager.
-* [pcacur](https://github.com/Spyhawk/pacaur): A AUR wrapper for Archlinux.
-* [zsh](http://zsh.sourceforge.net): the final shell.
-* [Archlinux](http://www.archlinux.org): A simple, lightweight distribution.
+* [user-initscripts](https://github.com/fleger/user-initscripts) A user daemon system based on and relying upon the Arch Linux initscripts.
 
 Copyright
 ---------
