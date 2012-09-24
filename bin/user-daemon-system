@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function start_daemons(){
+start_daemons(){
   . ~/etc/rc.conf
   . ~/etc/rc.d/functions
 
@@ -13,7 +13,7 @@ function start_daemons(){
   done
 }
 
-function stop_daemons(){
+stop_daemons(){
   . ~/etc/rc.conf
   . ~/etc/rc.d/functions
 
@@ -37,17 +37,15 @@ function stop_daemons(){
 	done
 }
 
+stop_all_daemons() {
+	USERS="`ls -d -c1 /home/*/etc/rc.conf | cut -d/ -f3`"
+	for USER in $USERS; do
+		su $USER -c "/usr/bin/user-daemon-system stop"
+	done
+}
+
 case "$1" in
-	"start" )
-		start_daemons
-		;;
-	"stop" )
-		users="`ls -d -c1 /home/*/etc/rc.conf | cut -d/ -f3`"
-		for user in $users; do
-			su $user -c "/usr/bin/user-daemon-system stop-daemons"
-		done
-		;;
-	"stop-daemons" )
-		stop_daemons
-		;;
+	"stop-all" ) stop_all_daemons ;;
+	"start"    ) start_daemons ;;
+	"stop"     ) stop_daemons ;;
 esac

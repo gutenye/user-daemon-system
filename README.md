@@ -1,13 +1,14 @@
 user-daemon-system, The missing daemon system for user.
 ==============================================================
 
-| Homepage:      |  https://github.com/GutenYe/user-daemon-system       |
-|----------------|------------------------------------------------------       |
-| Author:	       | Guten                                                 |
-| License:       | MIT-LICENSE                                                |
+|                |                                                      |
+|----------------|------------------------------------------------------|
+| Homepage:      | https://github.com/GutenYe/user-daemon-system        |
+| Author:	       | Guten                                                |
+| License:       | MIT-LICENSE                                          |
 | Issue Tracker: | https://github.com/GutenYe/user-daemon-system/issues |
 
-ArchLinux initscripts.
+Archlinux initscripts.
 
 |  initscripts 	         | user-daemon-system   |
 |------------------------|----------------------|
@@ -24,7 +25,7 @@ ArchLinux initscripts.
 
 * [user-mpd-daemon](https://aur.archlinux.org/packages.php?ID=56855): mpd is a flexible, powerful, server-side music player daemon.
 * [user-aria2-daemon](https://aur.archlinux.org/packages.php?ID=56854): aria2 is a lightweight multi-protocol & multi-source download utility operated in command-line
-* [user-profile-sync-daemon-git](https://aur.archlinux.org/packages.php?ID=57419): sync browser profiles to tmpfs.
+* [user-profile-sync-daemon](https://aur.archlinux.org/packages.php?ID=62147): sync browser profiles to tmpfs.
 
 Getting Started
 -----
@@ -50,15 +51,13 @@ manualy stop daemon
 Install
 -------
 
-Requirements: Archlinux, bash
-
 	$ pacaur -S user-daemon-system-git
 
-	# ~/.bash_login   # use ~/.zlogin for zsh.
+	# ~/.bash_login    (ZSH: ~/.zlogin)
 		user-daemon-system start
 
 	# /etc/rc.local.shutdown
-		HOME=/home/<user> /usr/bin/user-daemon-system stop
+		/usr/bin/user-daemon-system stop-all
 
 Note on Patches/Pull Requests
 -----------------------------
@@ -84,7 +83,7 @@ Copyright
 
 (the MIT License)
 
-Copyright (c) 2011 Guten
+Copyright (c) 2011-2012 Guten
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -1,0 +1,33 @@
+#!/bin/bash
+. /etc/rc.d/functions
+. /etc/conf.d/$daemon
+
+action=$1
+daemon=$2
+
+case "$action" in
+  start)
+    for USER in ${USERS[@]} ; do
+      su $USER -c "~/etc/rc.d/$daemon start"
+    done
+
+    add_daemon $daemon
+    ;;
+  stop)
+    for USER in ${USERS[@]}; do
+      su $USER -c "~/etc/rc.d/$daemon stop"
+    done
+
+    rm_daemon $daemon
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  *)
+    echo "usage: $0 {start|stop|restart} <daemon>"
+esac
+exit 0
+
+# vim:set ts=2 sw=2 ft=sh et:
