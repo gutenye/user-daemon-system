@@ -1,6 +1,22 @@
 user-daemon-system, The missing daemon system for user.
 ==============================================================
 
+**Note: I don't use this any more, systemd can do what it does.**
+
+[systemd](http://www.freedesktop.org/wiki/Software/systemd): a system and service manager for Linux.
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
 |                |                                                      |
 |----------------|------------------------------------------------------|
 | Homepage:      | https://github.com/GutenYe/user-daemon-system        |
